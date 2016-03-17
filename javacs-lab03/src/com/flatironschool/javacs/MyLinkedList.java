@@ -64,7 +64,12 @@ public class MyLinkedList<E> implements List<E> {
 		mll.add(2);
 		mll.add(3);
 		System.out.println(Arrays.toString(mll.toArray()) + " size = " + mll.size());
-		
+		System.out.println("My Tests!!");
+
+		mll.add(2,4);
+		mll.add(0,5);
+		System.out.println(Arrays.toString(mll.toArray()));
+		System.out.println("My Tests end");
 		mll.remove(new Integer(2));
 		System.out.println(Arrays.toString(mll.toArray()) + " size = " + mll.size());
 	}
@@ -86,6 +91,34 @@ public class MyLinkedList<E> implements List<E> {
 	@Override
 	public void add(int index, E element) {
 		// TODO: fill this in
+		Node node = new Node(element);
+		if(index == 0)
+		{
+			node.next = head;
+			head = node;
+			size+=1;
+		}
+		else
+		{
+			Node previous = null;
+			Node current = head;
+			int count = 0;
+			while(current != null)
+			{
+				if(count == index)
+				{
+					break;
+				}
+
+
+				previous = current;
+				current = current.next;
+				count+=1;
+			}
+			previous.next = node;
+			node.next = current;
+			size += 1;
+		}
 	}
 
 	@Override
@@ -147,6 +180,14 @@ public class MyLinkedList<E> implements List<E> {
 	@Override
 	public int indexOf(Object target) {
 		// TODO: fill this in
+		Node current = head;
+		int count = 0;
+		for(; current != null; current = current.next)
+		{
+			if(equals(current.cargo, target))
+				return count;
+			count += 1;
+		}
 		return -1;
 	}
 
@@ -201,8 +242,33 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public boolean remove(Object obj) {
-		// TODO: fill this in
-		return false;
+		if(equals(head.cargo, obj))
+		{
+			head = head.next;
+			size--;
+			return true;
+		}
+		
+		Node current = head;
+		Node previous = null;
+		boolean check = false;
+		while(current != null)
+		{
+			if(equals(current.cargo, obj))
+			{
+				check = true;
+				break;
+			}
+			previous = current;
+			current = current.next;
+		}
+		if(check)
+		{
+			previous.next = current.next;
+			size--;
+			return true;
+		}
+		return false;	
 	}
 
 	@Override
